@@ -25,7 +25,7 @@ jobs:
         run: |
           npm install
           
-          CI=false npm run build  # Disable treating warnings as errors
+          npm run build  # Disable treating warnings as errors
 
       # Step 4: Configure AWS credentials using GitHub secrets
       - name: Configure AWS Credentials
