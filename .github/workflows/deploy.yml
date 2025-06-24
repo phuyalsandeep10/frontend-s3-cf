@@ -1,9 +1,9 @@
-name: Deploy Vite Project to S3 
+name: Deploy Vite Project to S3
 
 on:
   push:
     branches:
-      - main  # Trigger on pushes to the main branch
+      - main
 
 jobs:
   deploy:
@@ -18,16 +18,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Specify your desired Node.js version
+          node-version: '18'
 
       # Step 3: Install dependencies and build the project
       - name: Install dependencies and build the project
+        working-directory: ./mern-admin
         run: |
           npm install
-          
-          npm run build  # Disable treating warnings as errors
+          npm run build
 
-      # Step 4: Configure AWS credentials using GitHub secrets
+      # Step 4: Configure AWS credentials
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -35,20 +35,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # Step 5: Sync the build files to S3 bucket
+      # Step 5: Sync build files to S3
       - name: Sync build files to S3
         run: |
-          aws s3 sync ./build s3://${{ secrets.AWS_S3_BUCKET }} --delete
+          aws s3 sync ./mern-admin/dist s3://${{ secrets.AWS_S3_BUCKET }} --delete
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-      
+
       # Step 6: Invalidate CloudFront Cache
       - name: Invalidate CloudFront Cache
         run: |
           aws cloudfront create-invalidation --distribution-id E2I8Z14HM2EH5T --paths "/index.html"
-
+        
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
