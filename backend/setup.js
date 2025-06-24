@@ -2,7 +2,7 @@ require("dotenv").config({ path: __dirname + "/../.variables.env" });
 const fs = require("fs");
 
 const mongoose = require("mongoose");
-mongoose.connect(process.env.DATABASE);
+mongoose.connect("mongodb://localhost:27017/mern-admin");
 mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
 
 // import all of our models - they need to be imported only once
@@ -36,13 +36,13 @@ mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
 
 async function createAdmin() {
   try {
-    const Admin = require("../models/Admin");
+    const Admin = require("../backend/models/Admin");
     var newAdmin = new Admin();
-    const passwordHash = newAdmin.generateHash("123456");
+    // const passwordHash = newAdmin.generateHash("123456");
 
     await new Admin({
       email: "admin@demo.com",
-      password: passwordHash,
+      password: "123456",
       name: "admin",
       surname: "demo",
     }).save();

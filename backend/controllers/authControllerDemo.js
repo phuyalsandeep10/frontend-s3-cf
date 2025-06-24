@@ -18,7 +18,7 @@ exports.loginDemo = async (req, res) => {
         exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
         id: "60b4e282eb314b0015faf2a9",
       },
-      process.env.JWT_SECRET
+      "SECRET"
     );
 
     res.json({
