@@ -22,6 +22,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies and build the project
+        working-directory: ./frontend
         run: |
           npm install
           npm run build
