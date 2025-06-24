@@ -24,7 +24,8 @@ jobs:
       - name: Install dependencies and build the project
         working-directory: ./frontend
         run: |
-          npm install
+          npm install --legacy-peer-deps
+
           npm run build
 
       - name: Configure AWS Credentials
