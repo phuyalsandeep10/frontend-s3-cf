@@ -23,6 +23,8 @@ jobs:
 
       - name: Install dependencies and build the project
         working-directory: ./frontend
+        env:
+           NODE_OPTIONS: --openssl-legacy-provider
         run: |
           npm install --legacy-peer-deps
 
